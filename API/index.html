@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Previsão do Tempo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Temperatura Atual</h1>
+        <input type="text" id="cityInput" placeholder="Digite o nome da cidade">
+        <button onclick="getWeather()">Buscar</button>
+        <p id="weatherResult"></p>
+    </div>
+
+    <script src="script.js"></script>
+   <Script>
+    function getWeather() {
+    const city = document.getElementById("cityInput").value.trim();
+    const apiKey = "06b0fe93d56a50cbd50878089f3e4dea"; // Substitua aqui
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={06b0fe93d56a50cbd50878089f3e4dea}=${apiKey}&lang=pt_br&units=metric`;
+
+    if (!city) {
+        alert("Por favor, digite o nome de uma cidade.");
+        return;
+    }
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Cidade não encontrada");
+            }
+            return response.json();
+        })
+        .then(data => {
+            const temp = data.main.temp;
+            const description = data.weather[0].description;
+            const cityName = data.name;
+            document.getElementById("weatherResult").textContent = 
+                `${cityName}: ${temp}°C - ${description}`;
+        })
+        .catch(error => {
+            alert(error.message);
+            document.getElementById("weatherResult").textContent = "";
+        });
+}
+   </Script>
+</body>
+</html>
